@@ -3,9 +3,9 @@ from mysql.connector import Error
 import pandas as pd
 import pymysql
 import csv
-# connecting to mysql workbench & MongoDB server (database)
+# connecting to mysql workbench (database)
 try:
-    connection = mysql.connect(host='localhost',database='Employees',user='root',password='root')  #connection with MySQL
+    connection = mysql.connect(host='localhost',database='Employees',user='root',password='*****')  #connection with MySQL
    
     if connection.is_connected():
         db_Info = connection.get_server_info() 
@@ -20,7 +20,7 @@ except Error as e:
     print("Error while connecting to Database", e)     
 
 
-csv_path="Dept_emp.csv"
+csv_path="path of your csv file"
 df = pd.read_csv(csv_path)
 d_df=df
 
@@ -55,7 +55,7 @@ columnDataType = getColumnDtypes(d_df.dtypes)
 #print(columnDataType)
     
 def createTable():
-    createTableStatement = 'CREATE TABLE IF NOT EXISTS dept_emp ('
+    createTableStatement = 'CREATE TABLE IF NOT EXISTS table_name ('
     for i in range(len(columnDataType)):
         createTableStatement += '\n' + columnNames[i] + ' ' + columnDataType[i] + '(255)'+ ','
     createTableStatement = createTableStatement.rstrip(',') + ' );'
@@ -78,12 +78,12 @@ def insertValues():
         for row in csv_reader:
             #print(row)
             count+=1
-            sql = 'INSERT INTO dept_emp (emp_no,dept_no,from_date,to_date) VALUES (%s,%s,%s,%s)'
+            sql = 'INSERT INTO table_name (emp_no,dept_no,from_date,to_date) VALUES (%s,%s,%s,%s)'
             #sql = f'INSERT INTO employee (emp_no,birth_date,first_name,last_name,gender,hire_date) VALUES ({row[0]},{row[1]},{row[2]},{row[3]},{row[4]},{row[5]})'
             #print(sql)
             mycursor.execute(sql, tuple(row))
             
-            if count==1000:
+            if count==1000:  #modify the count as per requirement
                 print("Records inserted")
                 break
 
