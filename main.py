@@ -88,7 +88,7 @@ def insertValues():
                 break
 
 insertValues()
-connection.commit()                  #  Employee_details table pushed to MySQL workbench  
+connection.commit()                  #  Records pushed to MySQL workbench  
 
 
 
